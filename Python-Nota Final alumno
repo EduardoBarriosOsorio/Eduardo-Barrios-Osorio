@@ -1,0 +1,91 @@
+#Pseudocodigo 
+#1. Ingresar datos(pedir nombre y 3 notas)
+#2. Pedir ponderacion de cada prueba
+#3. Promedio con ponderacion correspondiete
+#4. promedio del curso
+#5. comparar quienes estan sobre y por debajo del promedio
+
+#Ingresar datos(pedir nombre y 3 notas)
+def ingresar_alumnos():
+  alumno = []
+  alumno.append(input("Ingrese el nombre del alumno"))
+  while True:
+    nota1 = float(input("Ingrese la nota de la prueba 1:"))
+    if verificar_nota(nota1):
+      alumno.append(nota1)
+      break
+    else:
+      print("nota no valida")
+  while True:
+    nota2 = float(input("Ingrese la nota de la prueba 2:"))
+    if verificar_nota(nota2):
+      alumno.append(nota2)
+      break
+    else:
+      print("nota no valida") 
+
+  while True:
+    nota3 = float(input("Ingrese la nota de la prueba 3:"))
+    if verificar_nota(nota3):
+      alumno.append(nota3)
+      break
+    else:
+      print("nota no valida") 
+  return alumno
+
+
+def verificar_nota(nota):
+  if nota>7 or nota<1:
+    return False
+  else:
+    return True
+
+alumnos =[]
+while True:
+  alumnos.append(ingresar_alumnos())
+  flag = input("Desea continuar? S/N")
+  if flag == 'N':
+    break
+
+#Pedir ponderacion de cada prueba
+
+def pedir_ponderacion():
+  ponderacion=[]
+  ponderacion.append(float(input("Ingrese la ponderacion de la prueba 1")))
+  ponderacion.append(float(input("Ingrese la ponderacion de la prueba 2")))
+  ponderacion.append(float(input("Ingrese la ponderacion de la prueba 3")))
+  return ponderacion
+
+ponderacion = pedir_ponderacion()
+
+#Promedio con ponderacion correspondiete
+import numpy as np
+
+promedio_alumnos =[]
+for alumno in alumnos:
+  promedio = np.dot(alumno[1:],ponderacion)
+  promedio_alumnos.append([alumno[0],promedio])
+print(promedio_alumnos)
+
+#promedio del curso
+from statistics import mean
+
+def prom_curso(promedio_alumnos):
+  notas = []
+  for alumno in promedio_alumnos:
+    notas.append(alumno[1])
+  return mean(notas)
+
+nota_eximicion = prom_curso(promedio_alumnos)
+
+#comparar quienes estan sobre y por debajo del promedio
+print("Personas que no da el examen:")
+for alumno in promedio_alumnos:
+  if alumno[1] >= nota_eximicion:
+    print(alumno[0])
+
+print("Personas que dan el examen:")
+for alumno in promedio_alumnos:
+  if alumno[1] < nota_eximicion:
+    print(alumno[0])
+
